@@ -22,6 +22,55 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(source, true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(source).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function");
@@ -91,7 +140,7 @@ function _createClass$1(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-function _defineProperty(obj, key, value) {
+function _defineProperty$1(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -106,7 +155,7 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function ownKeys(object, enumerableOnly) {
+function ownKeys$1(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
@@ -120,18 +169,18 @@ function ownKeys(object, enumerableOnly) {
   return keys;
 }
 
-function _objectSpread2(target) {
+function _objectSpread2$1(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
 
     if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
+      ownKeys$1(Object(source), true).forEach(function (key) {
+        _defineProperty$1(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      ownKeys(Object(source)).forEach(function (key) {
+      ownKeys$1(Object(source)).forEach(function (key) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
@@ -1124,7 +1173,7 @@ function (_MC$API$MonoIncident) {
         initialize[this.targetValue] = [this.getScratchValue(), this.targetValue];
       }
 
-      this.target = anime(_objectSpread2({
+      this.target = anime(_objectSpread2$1({
         autoplay: false,
         duration: this.props.duration,
         easing: "linear",
@@ -2043,41 +2092,54 @@ var index = {
 
 var Anime$1 = MC.loadPlugin(index);
 
-var Cross =
+var CrossMoveRight =
 /*#__PURE__*/
 function (_MotorCortex$API$Clip) {
-  _inherits(Cross, _MotorCortex$API$Clip);
+  _inherits(CrossMoveRight, _MotorCortex$API$Clip);
 
-  function Cross() {
-    _classCallCheck(this, Cross);
+  function CrossMoveRight() {
+    _classCallCheck(this, CrossMoveRight);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Cross).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(CrossMoveRight).apply(this, arguments));
   }
 
-  _createClass(Cross, [{
+  _createClass(CrossMoveRight, [{
     key: "buildTree",
     value: function buildTree() {
       for (var i = 1; i <= this.attrs.items; i++) {
-        var box = new Anime$1.Anime({
+        var crossScale = new Anime$1.Anime({
           animatedAttrs: {
             transform: {
-              rotate: "197deg"
-            },
-            left: "".concat(this.attrs.travelDistance, "px")
+              scale: 1,
+              rotate: "-".concat(Math.floor(Math.random() * 190), "deg")
+            }
           },
-          initialValues: {},
-          attrs: {
+          initialValues: {
             transform: {
+              scale: 0,
               rotate: "0deg"
             }
           }
         }, {
           duration: 1000,
-          selector: ".cross-item-" + i,
-          easing: "easeOutQuart",
-          repeats: 1
+          selector: ".cross-item-" + (this.attrs.items - i + 1)
         });
-        this.addIncident(box, 500 + 50 * (i + 1));
+        this.addIncident(crossScale, 500 * i - 500);
+        var lastEnd = 250 * this.attrs.items + 250 * i;
+        var left = this.attrs.crossSize * (i + 1);
+        var crossLeft = new Anime$1.Anime({
+          animatedAttrs: {
+            left: "".concat(this.attrs.travelDistance - left, "px"),
+            transform: {
+              rotate: "197deg"
+            }
+          }
+        }, {
+          duration: 700,
+          selector: ".cross-wrapper-item-" + (this.attrs.items - i + 1),
+          easing: "easeInOutQuad"
+        });
+        this.addIncident(crossLeft, lastEnd);
       }
     }
   }, {
@@ -2094,38 +2156,990 @@ function (_MotorCortex$API$Clip) {
       var crossList = [];
 
       for (var i = 1; i <= this.attrs.items; i++) {
-        crossList.push(" <div style=\"left: ".concat(this.attrs.crossSize * i, "px;\" class=\"cross cross-item-").concat(i, "\"> </div>"));
-      } // const textlist = (() => {
-      //   const list = [];
-      //   const n = Math.floor(this.attrs.height / (this.attrs.width * 0.2));
-      //   this.n = n;
-      //   for (let i = 0; i < n; i++) {
-      //     list.push(`<div class="txt-group txt-${i}">brapapa</div>`);
-      //   }
-      //   return list.join("");
-      // })();
+        var left = i === 1 ? this.attrs.crossSize / 2 - this.attrs.crossThickness / 2 : this.attrs.crossSize * i;
+        crossList.push("<div  style=\"left: ".concat(left, "px;\" class=\"cross-wrapper-item cross-wrapper-item-").concat(i, "\"> <div class=\"cross cross-item-").concat(i, "\"> </div> </div>"));
+      }
 
-
-      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(''), "\n\t  </div>\n    ");
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n\t  </div>\n    ");
     }
   }, {
     key: "css",
     get: function get() {
-      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height: ").concat(this.attrs.height, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n    }\n    \n    .cross {\n      background: red;\n      height: ").concat(this.attrs.crossSize, "px;\n      position: relative;\n      width: ").concat(this.attrs.crossThiknes, "px;\n      left: ").concat(this.attrs.crossSize / 2 - this.attrs.crossThiknes / 2, "px;\n    }\n    .cross:after {\n      background: red;\n      content: \"\";\n      height: ").concat(this.attrs.crossThiknes, "px;\n      left: -").concat(this.attrs.crossSize / 2 - this.attrs.crossThiknes / 2, "px;\n      position: absolute;\n      top: ").concat(this.attrs.crossSize / 2 - this.attrs.crossThiknes / 2, "px;\n      width: ").concat(this.attrs.crossSize, "px;\n    }\n\n  ");
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height: ").concat(this.attrs.height, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n    }\n    \n    .cross {\n      background: ").concat(this.attrs.color, ";\n      height: ").concat(this.attrs.crossSize, "px;\n      width: ").concat(this.attrs.crossThickness, "px;\n     \n    }\n    .cross-wrapper-item {\n      height: ").concat(this.attrs.crossSize, "px;\n      width:").concat(this.attrs.crossSize, "px;\n      position: absolute;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      align-content: center;\n    }\n    .cross:after {\n      background: ").concat(this.attrs.color, ";\n      content: \"\";\n      height: ").concat(this.attrs.crossThickness, "px;\n      left: -").concat(this.attrs.crossSize / 2 - this.attrs.crossThickness / 2, "px;\n      position: absolute;\n      top: ").concat(this.attrs.crossSize / 2 - this.attrs.crossThickness / 2, "px;\n      width: ").concat(this.attrs.crossSize, "px;\n    }\n\n  ");
     }
   }]);
 
-  return Cross;
+  return CrossMoveRight;
 }(MC.API.Clip);
 
-var Cross_1 = Cross;
+var CrossMoveRight_1 = CrossMoveRight;
 
+var Anime$2 = MC.loadPlugin(index);
+
+var CrossMoveRightOutline =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(CrossMoveRightOutline, _MotorCortex$API$Clip);
+
+  function CrossMoveRightOutline() {
+    _classCallCheck(this, CrossMoveRightOutline);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CrossMoveRightOutline).apply(this, arguments));
+  }
+
+  _createClass(CrossMoveRightOutline, [{
+    key: "buildTree",
+    value: function buildTree() {
+      for (var i = 0; i <= this.attrs.steps; i++) {
+        var crossOpacityOn = new Anime$2.Anime({
+          animatedAttrs: {
+            opacity: 1
+          },
+          initialValues: {
+            opacity: 0
+          }
+        }, {
+          duration: 1,
+          selector: ".cross-item-" + i
+        });
+        this.addIncident(crossOpacityOn, 500 * i + 1);
+        var crossOpacityOff = new Anime$2.Anime({
+          animatedAttrs: {
+            opacity: 0
+          },
+          initialValues: {
+            opacity: 1
+          }
+        }, {
+          duration: 1,
+          selector: ".cross-item-" + i
+        });
+        this.addIncident(crossOpacityOff, 500 * i + 1 + 500);
+      }
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+
+      for (var i = 0; i <= this.attrs.steps; i++) {
+        var left = i === 1 ? this.attrs.crossSize / 2 - this.attrs.crossThickness / 2 : this.attrs.crossSize * i;
+        crossList.push("<svg class=\"cross-item cross-item-".concat(i, "\" style=\"left:").concat(this.attrs.travelDistance / this.attrs.steps * i, "px;transform: rotate(").concat(Math.floor(Math.random() * 361), "deg)\" height=\"").concat(this.attrs.crossSize, "px\" viewBox=\"0 0 512 512\" width=\"").concat(this.attrs.crossSize, "px\" xmlns=\"http://www.w3.org/2000/svg\">\n           <path d=\"m336 512h-160v-177h-176v-160h176v-175h160v175h176v160h-176zm-120-40h80v-177h176v-80h-176v-175h-80v175h-176v80h176zm0 0\"/>\n        </svg>"));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n\t  </div>\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height: ").concat(this.attrs.height, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n    }\n    .cross-item{\n      fill: ").concat(this.attrs.color, ";\n      position:relative;\n    }\n   \n\n  ");
+    }
+  }]);
+
+  return CrossMoveRightOutline;
+}(MC.API.Clip);
+
+var CrossMoveRightOutline_1 = CrossMoveRightOutline;
+
+var Anime$3 = MC.loadPlugin(index);
+
+var CrossRandom =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(CrossRandom, _MotorCortex$API$Clip);
+
+  function CrossRandom() {
+    _classCallCheck(this, CrossRandom);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CrossRandom).apply(this, arguments));
+  }
+
+  _createClass(CrossRandom, [{
+    key: "buildTree",
+    value: function buildTree() {
+      var _this = this;
+
+      var shuffle = function shuffle(array) {
+        var currentIndex = array.length,
+            temporaryValue,
+            randomIndex; // While there remain elements to shuffle...
+
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1; // And swap it with the current element.
+
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+      };
+
+      var indexArray = Object.keys(this.array);
+      var shuffledArray = shuffle(indexArray);
+      shuffledArray.map(function (index, i) {
+        var crossScale = new Anime$3.Anime({
+          animatedAttrs: {
+            opacity: 1
+          },
+          initialValues: {
+            opacity: 0
+          }
+        }, {
+          duration: 1,
+          selector: ".cross-item-" + index
+        });
+
+        _this.addIncident(crossScale, 200 * i * (_this.attrs.timing || 1));
+      });
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+      this.array = [];
+
+      for (var i = 0; i < this.attrs.items; i++) {
+        this.array.push(0);
+        var left = this.attrs.crossSize / 2 - this.attrs.crossThickness;
+        crossList.push(" <div  class=\"cross cross-item-".concat(i, "\"> </div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n\t  </div>\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      \n      display:flex;\n      font-family: 'Poppins', sans-serif;\n      \n        display: grid;\n        grid-column-gap: ").concat(this.attrs.crossSize / 2, "px;\n        grid-template-columns: repeat(").concat(Math.round(this.attrs.items / this.attrs.rows), ", 1fr);\n        grid-row-gap: ").concat(this.attrs.crossSize, "px;\n        justify-items: center;\n    }\n    \n    .cross {\n      background: ").concat(this.attrs.color, ";\n      height: ").concat(this.attrs.crossSize, "px;\n      width: ").concat(this.attrs.crossThickness, "px;\n      position: relative;\n    }\n \n    .cross:after {\n      background: ").concat(this.attrs.color, ";\n      content: \"\";\n      height: ").concat(this.attrs.crossThickness, "px;\n      left: -").concat(this.attrs.crossSize / 2 - this.attrs.crossThickness / 2, "px;\n      position: absolute;\n      top: ").concat(this.attrs.crossSize / 2 - this.attrs.crossThickness / 2, "px;\n      width: ").concat(this.attrs.crossSize, "px;\n    }\n\n  ");
+    }
+  }]);
+
+  return CrossRandom;
+}(MC.API.Clip);
+
+var CrossRandom_1 = CrossRandom;
+
+var Anime$4 = MC.loadPlugin(index);
+
+var VerticalLinesMove =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(VerticalLinesMove, _MotorCortex$API$Clip);
+
+  function VerticalLinesMove() {
+    _classCallCheck(this, VerticalLinesMove);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(VerticalLinesMove).apply(this, arguments));
+  }
+
+  _createClass(VerticalLinesMove, [{
+    key: "buildTree",
+    value: function buildTree() {
+      for (var i = 0; i <= 3; i++) {
+        var lineTop = new Anime$4.Anime({
+          animatedAttrs: {
+            height: "".concat(this.attrs.height * 0.6, "px"),
+            top: "0px"
+          },
+          initialValues: {
+            height: "0px",
+            top: "".concat(this.attrs.height, "px")
+          }
+        }, {
+          duration: 500,
+          selector: ".line-wrapper-item-" + i
+        });
+        this.addIncident(lineTop, 500 * i + 1);
+        var lineHeigth = new Anime$4.Anime({
+          animatedAttrs: {
+            height: "0px"
+          }
+        }, {
+          duration: 400,
+          selector: ".line-item-" + i
+        });
+        this.addIncident(lineHeigth, 500 + 500 * i + 1);
+      }
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+      this.array = [];
+
+      for (var i = 0; i < 3; i++) {
+        this.array.push(0);
+        crossList.push("<div  style=\"width:".concat(Math.floor(Math.random() * this.attrs.maxLineWidth), "px;\" class=\"line-wrapper line-wrapper-item-").concat(i, "\"> <div style=\"width:").concat(this.attrs.maxLineWidth, "px;height:").concat(Math.floor(Math.random() * this.attrs.height), "px;\"  class=\"line line-item-").concat(i, "\"> </div></div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n    </div>\n    \n\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height:").concat(this.attrs.height, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n    }\n    .line{\n      background: ").concat(this.attrs.color, ";\n      position: relative;\n    }\n\n    .line-wrapper{\n      position: relative;\n      overflow: hidden;\n    }\n \n\n  ");
+    }
+  }]);
+
+  return VerticalLinesMove;
+}(MC.API.Clip);
+
+var VerticalLinesMove_1 = VerticalLinesMove;
+
+var Anime$5 = MC.loadPlugin(index);
+
+var HorizontalLinesMove =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(HorizontalLinesMove, _MotorCortex$API$Clip);
+
+  function HorizontalLinesMove() {
+    _classCallCheck(this, HorizontalLinesMove);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(HorizontalLinesMove).apply(this, arguments));
+  }
+
+  _createClass(HorizontalLinesMove, [{
+    key: "buildTree",
+    value: function buildTree() {
+      for (var i = 0; i <= 3; i++) {
+        var lineTop = new Anime$5.Anime({
+          animatedAttrs: {
+            width: "".concat(this.attrs.width * 0.6, "px"),
+            left: "0px"
+          },
+          initialValues: {
+            width: "0px",
+            left: "".concat(this.attrs.width, "px")
+          }
+        }, {
+          duration: 500,
+          selector: ".line-wrapper-item-" + i
+        });
+        this.addIncident(lineTop, 500 * i + 1);
+        var lineHeigth = new Anime$5.Anime({
+          animatedAttrs: {
+            width: "0px"
+          }
+        }, {
+          duration: 400,
+          selector: ".line-item-" + i
+        });
+        this.addIncident(lineHeigth, 500 + 500 * i + 1);
+      }
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+      this.array = [];
+
+      for (var i = 0; i < 3; i++) {
+        this.array.push(0);
+        crossList.push("<div  style=\"width:".concat(Math.floor(Math.random() * this.attrs.maxLineHeight), "px;\" class=\"line-wrapper line-wrapper-item-").concat(i, "\"> <div style=\"height:").concat(this.attrs.maxLineHeight, "px;width:").concat(Math.floor(Math.random() * this.attrs.width), "px;\"  class=\"line line-item-").concat(i, "\"> </div></div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n    </div>\n    \n\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height:").concat(this.attrs.height, "px;\n      font-family: 'Poppins', sans-serif;\n    }\n    .line{\n      background: ").concat(this.attrs.color, ";\n      position: relative;\n    }\n\n    .line-wrapper{\n      position: relative;\n      overflow: hidden;\n    }\n \n\n  ");
+    }
+  }]);
+
+  return HorizontalLinesMove;
+}(MC.API.Clip);
+
+var HorizontalLinesMove_1 = HorizontalLinesMove;
+
+var Anime$6 = MC.loadPlugin(index);
+
+var CircleExplosion =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(CircleExplosion, _MotorCortex$API$Clip);
+
+  function CircleExplosion() {
+    _classCallCheck(this, CircleExplosion);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CircleExplosion).apply(this, arguments));
+  }
+
+  _createClass(CircleExplosion, [{
+    key: "buildTree",
+    value: function buildTree() {
+      for (var i = 0; i < this.attrs.items; i++) {
+        var circleTop = new Anime$6.Anime({
+          animatedAttrs: {
+            transform: {
+              translateY: "".concat(-this.attrs.travelDistance, "px")
+            }
+          }
+        }, {
+          duration: 500,
+          selector: ".circle-item-" + i
+        });
+        this.addIncident(circleTop, 0);
+        var circleWidthUp = new Anime$6.Anime({
+          animatedAttrs: {
+            width: "".concat(this.attrs.border === true ? 0 : this.attrs.maxCirlcleSize, "px"),
+            height: "".concat(this.attrs.border === true ? 0 : this.attrs.maxCirlcleSize, "px"),
+            border: this.attrs.border === true ? "".concat(this.attrs.maxCirlcleSize / 2, "px solid ").concat(this.attrs.color) : "".concat(0, "px solid ", this.attrs.color)
+          },
+          initialValues: {
+            width: "0px",
+            height: "0px",
+            border: this.attrs.border === true ? "".concat(0, "px solid ", this.attrs.color) : "".concat(0, "px solid ", this.attrs.color)
+          }
+        }, {
+          duration: 250,
+          selector: ".circle-item-" + i
+        });
+        this.addIncident(circleWidthUp, 0);
+        var circleWidthDown = new Anime$6.Anime({
+          animatedAttrs: {
+            width: "".concat(this.attrs.border === true ? this.attrs.maxCirlcleSize : 0, "px"),
+            height: "".concat(this.attrs.border === true ? this.attrs.maxCirlcleSize : 0, "px"),
+            border: "".concat(0, "px solid ", this.attrs.color)
+          }
+        }, {
+          duration: 250,
+          selector: ".circle-item-" + i
+        });
+        this.addIncident(circleWidthDown, 250);
+      }
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+      this.array = [];
+
+      function randomIntFromInterval(min, max) {
+        // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+
+      for (var i = 0; i < this.attrs.items; i++) {
+        var r = randomIntFromInterval(this.attrs.minR - 90, this.attrs.maxR - 90);
+        crossList.push("<div style=\"\n      transform: rotate(".concat(r, "deg) \" class=\"circle circle-item-").concat(i, "\"> </div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n    </div>\n    \n\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height:").concat(this.attrs.height, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n      justify-content: center;\n      align-items: center;\n    }\n    .circle{\n      background: ").concat(this.attrs.border === true ? "transparent" : this.attrs.color, ";\n      width:").concat(this.attrs.maxCirlcleSize, "px;\n      height:").concat(this.attrs.maxCirlcleSize, "px;\n      border-radius: 100%;\n      position: absolute;\n\n    }\n\n  ");
+    }
+  }]);
+
+  return CircleExplosion;
+}(MC.API.Clip);
+
+var CircleExplosion_1 = CircleExplosion;
+
+var Anime$7 = MC.loadPlugin(index);
+
+var CircleBubbleUp =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(CircleBubbleUp, _MotorCortex$API$Clip);
+
+  function CircleBubbleUp() {
+    _classCallCheck(this, CircleBubbleUp);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CircleBubbleUp).apply(this, arguments));
+  }
+
+  _createClass(CircleBubbleUp, [{
+    key: "buildTree",
+    value: function buildTree() {
+      function randomIntFromInterval(min, max) {
+        // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+
+      for (var i = 0; i < this.attrs.items; i++) {
+        var duration = randomIntFromInterval(350, 500);
+        var circleTop = new Anime$7.Anime({
+          animatedAttrs: {
+            top: "".concat(-this.attrs.maxCirlcleSize, "px")
+          },
+          initialValues: {
+            top: "".concat(this.attrs.height, "px")
+          }
+        }, {
+          duration: Math.round(duration),
+          selector: ".circle-item-" + i
+        });
+        this.addIncident(circleTop, 0);
+        var circleWidthUp = new Anime$7.Anime({
+          animatedAttrs: {
+            width: "".concat(this.attrs.border === true ? 0 : this.attrs.maxCirlcleSize, "px"),
+            height: "".concat(this.attrs.border === true ? 0 : this.attrs.maxCirlcleSize, "px"),
+            border: this.attrs.border === true ? "".concat(this.attrs.maxCirlcleSize / 2, "px solid ").concat(this.attrs.color) : "".concat(0, "px solid ", this.attrs.color)
+          },
+          initialValues: {
+            width: "0px",
+            height: "0px",
+            border: this.attrs.border === true ? "".concat(0, "px solid ", this.attrs.color) : "".concat(0, "px solid ", this.attrs.color)
+          }
+        }, {
+          duration: Math.round(duration / 2),
+          selector: ".circle-item-" + i
+        });
+        this.addIncident(circleWidthUp, 0);
+        var circleWidthDown = new Anime$7.Anime({
+          animatedAttrs: {
+            width: "".concat(this.attrs.border === true ? this.attrs.maxCirlcleSize : 0, "px"),
+            height: "".concat(this.attrs.border === true ? this.attrs.maxCirlcleSize : 0, "px"),
+            border: "".concat(0, "px solid ", this.attrs.color)
+          }
+        }, {
+          duration: Math.round(duration / 2),
+          selector: ".circle-item-" + i
+        });
+        this.addIncident(circleWidthDown, Math.round(duration / 2));
+      }
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+      this.array = [];
+
+      function randomIntFromInterval(min, max) {
+        // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+
+      for (var i = 0; i < this.attrs.items; i++) {
+        var r = randomIntFromInterval(this.attrs.maxCirlcleSize, this.attrs.width - this.attrs.maxCirlcleSize);
+        crossList.push("<div style=\"\n     left: ".concat(r, "px\" class=\"circle circle-item-").concat(i, "\"> </div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(crossList.join(""), "\n    </div>\n    \n\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      height:").concat(this.attrs.height, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n      justify-content: center;\n      align-items: center;\n    }\n    .circle{\n      background: ").concat(this.attrs.border === true ? "transparent" : this.attrs.color, ";\n      width:").concat(this.attrs.maxCirlcleSize, "px;\n      height:").concat(this.attrs.maxCirlcleSize, "px;\n      border-radius: 100%;\n      position: absolute;\n\n    }\n\n  ");
+    }
+  }]);
+
+  return CircleBubbleUp;
+}(MC.API.Clip);
+
+var CircleBubbleUp_1 = CircleBubbleUp;
+
+var Anime$8 = MC.loadPlugin(index);
+
+var Dots =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(Dots, _MotorCortex$API$Clip);
+
+  function Dots() {
+    _classCallCheck(this, Dots);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Dots).apply(this, arguments));
+  }
+
+  _createClass(Dots, [{
+    key: "buildTree",
+    value: function buildTree() {
+      var dotsOpacity = new Anime$8.Anime({
+        animatedAttrs: {
+          opacity: 1
+        },
+        initialValues: {
+          opacity: 0
+        }
+      }, {
+        duration: 100 * this.attrs.timing,
+        selector: ".dots",
+        repeats: this.attrs.repeats
+      });
+      this.addIncident(dotsOpacity, 0);
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var dotsList = [];
+
+      for (var i = 0; i < this.attrs.items; i++) {
+        dotsList.push(" <div  class=\"dots dots-item-".concat(i, "\"> </div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      ".concat(dotsList.join(""), "\n\t  </div>\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      \n      display:flex;\n      font-family: 'Poppins', sans-serif;\n      \n        display: grid;\n       \n        grid-template-columns: repeat(").concat(Math.round(this.attrs.items / this.attrs.rows), ", ").concat(this.attrs.columnGap, "px);\n        grid-row-gap: ").concat(this.attrs.rowGap, "px;\n        justify-items: center;\n    }\n    \n    .dots {\n      background: ").concat(this.attrs.color, ";\n      height: ").concat(this.attrs.dotSize, "px;\n      width: ").concat(this.attrs.dotSize, "px;\n      border-radius: 100%;\n      position: relative;\n    }\n \n   \n\n  ");
+    }
+  }]);
+
+  return Dots;
+}(MC.API.Clip);
+
+var Dots_1 = Dots;
+
+var Anime$9 = MC.loadPlugin(index);
+
+var CrossRowReveal =
+/*#__PURE__*/
+function (_MotorCortex$API$Clip) {
+  _inherits(CrossRowReveal, _MotorCortex$API$Clip);
+
+  function CrossRowReveal() {
+    _classCallCheck(this, CrossRowReveal);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CrossRowReveal).apply(this, arguments));
+  }
+
+  _createClass(CrossRowReveal, [{
+    key: "buildTree",
+    value: function buildTree() {
+      for (var i = 0; i < this.attrs.items; i++) {
+        var select = this.attrs.reverse === true ? this.attrs.items - i - 1 : i;
+        var reveal = new Anime$9.Anime({
+          animatedAttrs: {
+            opacity: 1
+          },
+          initialValues: {
+            opacity: 0
+          }
+        }, {
+          duration: 1,
+          selector: ".cross-item-" + select,
+          easing: "easeOutQuad"
+        });
+        this.addIncident(reveal, 200 * i * (this.attrs.timing || 1));
+      }
+
+      var crossTop = new Anime$9.Anime({
+        animatedAttrs: {
+          top: "0px"
+        }
+      }, {
+        duration: 350,
+        selector: ".cross-wrapper-1",
+        easing: "easeOutQuad"
+      });
+      this.addIncident(crossTop, 200 * (this.attrs.timing || 1) * this.attrs.items);
+    }
+  }, {
+    key: "font",
+    get: function get() {
+      return [{
+        type: "google-font",
+        src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap"
+      }];
+    }
+  }, {
+    key: "html",
+    get: function get() {
+      var crossList = [];
+      this.array = [];
+
+      for (var i = 0; i < this.attrs.items; i++) {
+        this.array.push(0);
+        var left = this.attrs.crossSize / 2 - this.attrs.crossThickness;
+        crossList.push(" <div   class=\"cross cross-item-".concat(i, "\"> </div> "));
+      }
+
+      return "\n    <div class=\"wrapper\">\n      <div class= \"cross-wrapper cross-wrapper-0\">\n        ".concat(crossList.join(""), "\n      </div>\n      <div class= \"cross-wrapper cross-wrapper-1\">\n      ").concat(crossList.join(""), "\n    </div>\n\t  </div>\n    ");
+    }
+  }, {
+    key: "css",
+    get: function get() {
+      return "\n    .wrapper{\n      width: ".concat(this.attrs.width, "px;\n      display:flex;\n      font-family: 'Poppins', sans-serif;\n      height: ").concat(this.attrs.crossSize * 2 + this.attrs.crossSize / 2, "px;\n    }\n    .cross-wrapper{\n      display:flex;\n      position :absolute;\n      width:").concat(this.attrs.width, "px;\n      justify-content: space-around;\n      top:").concat(this.attrs.crossSize + this.attrs.crossSize / 2, "px;\n    }\n    .cross {\n      background: ").concat(this.attrs.color, ";\n      height: ").concat(this.attrs.crossSize, "px;\n      width: ").concat(this.attrs.crossThickness, "px;\n      position: relative;\n    }\n \n    .cross:after {\n      background: ").concat(this.attrs.color, ";\n      content: \"\";\n      height: ").concat(this.attrs.crossThickness, "px;\n      left: -").concat(this.attrs.crossSize / 2 - this.attrs.crossThickness / 2, "px;\n      position: absolute;\n      top: ").concat(this.attrs.crossSize / 2 - this.attrs.crossThickness / 2, "px;\n      width: ").concat(this.attrs.crossSize, "px;\n    }\n\n  ");
+    }
+  }]);
+
+  return CrossRowReveal;
+}(MC.API.Clip);
+
+var CrossRowReveal_1 = CrossRowReveal;
+
+var CrossMoveRightValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  height: {
+    optional: false,
+    type: "number"
+  },
+  crossSize: {
+    optional: false,
+    type: "number"
+  },
+  crossThickness: {
+    optional: false,
+    type: "number"
+  },
+  travelDistance: {
+    optional: false,
+    type: "number"
+  },
+  items: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  }
+};
+var CrossMoveRightOutlineValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  height: {
+    optional: false,
+    type: "number"
+  },
+  crossSize: {
+    optional: false,
+    type: "number"
+  },
+  travelDistance: {
+    optional: false,
+    type: "number"
+  },
+  steps: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  }
+};
+var CrossRandomValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  crossSize: {
+    optional: false,
+    type: "number"
+  },
+  crossThickness: {
+    optional: false,
+    type: "number"
+  },
+  items: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  },
+  rows: {
+    optional: false,
+    type: "number"
+  },
+  timing: {
+    optional: true,
+    type: "number"
+  }
+};
+var VerticalLinesMoveValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  height: {
+    optional: false,
+    type: "number"
+  },
+  maxLineWidth: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  }
+};
+var HorizontalLinesMoveValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  height: {
+    optional: false,
+    type: "number"
+  },
+  maxLineHeight: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  }
+};
+var CircleExplosionValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  height: {
+    optional: false,
+    type: "number"
+  },
+  maxCirlcleSize: {
+    optional: false,
+    type: "number"
+  },
+  travelDistance: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  },
+  items: {
+    optional: false,
+    type: "number"
+  },
+  minR: {
+    optional: false,
+    type: "number"
+  },
+  maxR: {
+    optional: false,
+    type: "number"
+  },
+  border: {
+    optional: false,
+    type: "boolean"
+  }
+};
+var CircleBubbleUp$1 = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  height: {
+    optional: false,
+    type: "number"
+  },
+  maxCirlcleSize: {
+    optional: false,
+    type: "number"
+  },
+  travelDistance: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  },
+  items: {
+    optional: false,
+    type: "number"
+  },
+  border: {
+    optional: false,
+    type: "boolean"
+  }
+};
+var DotsValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  dotSize: {
+    optional: false,
+    type: "number"
+  },
+  items: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  },
+  rowGap: {
+    optional: false,
+    type: "number"
+  },
+  columnGap: {
+    optional: false,
+    type: "number"
+  },
+  rows: {
+    optional: false,
+    type: "number"
+  },
+  timing: {
+    optional: false,
+    type: "number"
+  },
+  repeats: {
+    optional: false,
+    type: "number"
+  }
+};
+var CrossRowRevealValidation = {
+  width: {
+    optional: false,
+    type: "number"
+  },
+  crossSize: {
+    optional: false,
+    type: "number"
+  },
+  crossThickness: {
+    optional: false,
+    type: "number"
+  },
+  items: {
+    optional: false,
+    type: "number"
+  },
+  color: {
+    optional: false,
+    type: "color"
+  },
+  reverse: {
+    optional: false,
+    type: "boolean"
+  },
+  timing: {
+    optional: false,
+    type: "number"
+  }
+};
+var validation = {
+  CrossMoveRightValidation: CrossMoveRightValidation,
+  CrossMoveRightOutlineValidation: CrossMoveRightOutlineValidation,
+  CrossRandomValidation: CrossRandomValidation,
+  VerticalLinesMoveValidation: VerticalLinesMoveValidation,
+  HorizontalLinesMoveValidation: HorizontalLinesMoveValidation,
+  CircleExplosionValidation: CircleExplosionValidation,
+  CircleBubbleUp: CircleBubbleUp$1,
+  DotsValidation: DotsValidation,
+  CrossRowRevealValidation: CrossRowRevealValidation
+};
+
+var CrossMoveRightValidation$1 = validation.CrossMoveRightValidation,
+    CrossMoveRightOutlineValidation$1 = validation.CrossMoveRightOutlineValidation,
+    CrossRandomValidation$1 = validation.CrossRandomValidation,
+    VerticalLinesMoveValidation$1 = validation.VerticalLinesMoveValidation,
+    CircleExplosionValidation$1 = validation.CircleExplosionValidation,
+    CircleBubbleUpValidation = validation.CircleBubbleUpValidation,
+    HorizontalLinesMoveValidation$1 = validation.HorizontalLinesMoveValidation,
+    DotsValidation$1 = validation.DotsValidation,
+    CrossRowRevealValidation$1 = validation.CrossRowRevealValidation;
 var src = {
   npm_name: "@kissmybutton/motorcortex-animebanners",
   incidents: [{
-    exportable: Cross_1,
-    name: "Cross" // attributesValidationRules: { ...CrossValidation }
-
+    exportable: CrossMoveRight_1,
+    name: "CrossMoveRight",
+    attributesValidationRules: _objectSpread2({}, CrossMoveRightValidation$1)
+  }, {
+    exportable: CrossMoveRightOutline_1,
+    name: "CrossMoveRightOutline",
+    attributesValidationRules: _objectSpread2({}, CrossMoveRightOutlineValidation$1)
+  }, {
+    exportable: CrossRandom_1,
+    name: "CrossRandom",
+    attributesValidationRules: _objectSpread2({}, CrossRandomValidation$1)
+  }, {
+    exportable: VerticalLinesMove_1,
+    name: "VerticalLinesMove",
+    attributesValidationRules: _objectSpread2({}, VerticalLinesMoveValidation$1)
+  }, {
+    exportable: HorizontalLinesMove_1,
+    name: "HorizontalLinesMove",
+    attributesValidationRules: _objectSpread2({}, HorizontalLinesMoveValidation$1)
+  }, {
+    exportable: CircleExplosion_1,
+    name: "CircleExplosion",
+    attributesValidationRules: _objectSpread2({}, CircleExplosionValidation$1)
+  }, {
+    exportable: CircleBubbleUp_1,
+    name: "CircleBubbleUp",
+    attributesValidationRules: _objectSpread2({}, CircleBubbleUpValidation)
+  }, {
+    exportable: Dots_1,
+    name: "Dots",
+    attributesValidationRules: _objectSpread2({}, DotsValidation$1)
+  }, {
+    exportable: CrossRowReveal_1,
+    name: "CrossRowReveal",
+    attributesValidationRules: _objectSpread2({}, CrossRowRevealValidation$1)
   }]
 };
 var src_1 = src.npm_name;
