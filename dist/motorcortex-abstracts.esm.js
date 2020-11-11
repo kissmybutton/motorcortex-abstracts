@@ -267,7 +267,7 @@ function _createSuper(Derived) {
 }
 /*
  * anime.js v3.1.0
- * (c) 2019 Julian Garnier
+ * (c) 2020 Julian Garnier
  * Released under the MIT license
  * animejs.com
  */
@@ -1088,6 +1088,151 @@ function anime(params) {
 
   instance.reset();
   return instance;
+} // getTotalLength() equivalent for circle, rect, polyline, polygon and line shapes
+// adapted from https://gist.github.com/SebLambla/3e0550c496c236709744
+
+
+function getDistance(p1, p2) {
+  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+}
+
+function getCircleLength(el) {
+  return Math.PI * 2 * getAttribute(el, 'r');
+}
+
+function getRectLength(el) {
+  return getAttribute(el, 'width') * 2 + getAttribute(el, 'height') * 2;
+}
+
+function getLineLength(el) {
+  return getDistance({
+    x: getAttribute(el, 'x1'),
+    y: getAttribute(el, 'y1')
+  }, {
+    x: getAttribute(el, 'x2'),
+    y: getAttribute(el, 'y2')
+  });
+}
+
+function getPolylineLength(el) {
+  var points = el.points;
+  var totalLength = 0;
+  var previousPos;
+
+  for (var i = 0; i < points.numberOfItems; i++) {
+    var currentPos = points.getItem(i);
+
+    if (i > 0) {
+      totalLength += getDistance(previousPos, currentPos);
+    }
+
+    previousPos = currentPos;
+  }
+
+  return totalLength;
+}
+
+function getPolygonLength(el) {
+  var points = el.points;
+  return getPolylineLength(el) + getDistance(points.getItem(points.numberOfItems - 1), points.getItem(0));
+} // Path animation
+
+
+function getTotalLength(el) {
+  if (el.getTotalLength) {
+    return el.getTotalLength();
+  }
+
+  switch (el.tagName.toLowerCase()) {
+    case 'circle':
+      return getCircleLength(el);
+
+    case 'rect':
+      return getRectLength(el);
+
+    case 'line':
+      return getLineLength(el);
+
+    case 'polyline':
+      return getPolylineLength(el);
+
+    case 'polygon':
+      return getPolygonLength(el);
+  }
+} // Motion path
+
+
+function getParentSvgEl(el) {
+  var parentEl = el.parentNode;
+
+  while (is.svg(parentEl)) {
+    if (!is.svg(parentEl.parentNode)) {
+      break;
+    }
+
+    parentEl = parentEl.parentNode;
+  }
+
+  return parentEl;
+}
+
+function getParentSvg(pathEl, svgData) {
+  var svg = svgData || {};
+  var parentSvgEl = svg.el || getParentSvgEl(pathEl);
+  var rect = parentSvgEl.getBoundingClientRect();
+  var viewBoxAttr = getAttribute(parentSvgEl, 'viewBox');
+  var width = rect.width;
+  var height = rect.height;
+  var viewBox = svg.viewBox || (viewBoxAttr ? viewBoxAttr.split(' ') : [0, 0, width, height]);
+  return {
+    el: parentSvgEl,
+    viewBox: viewBox,
+    x: viewBox[0] / 1,
+    y: viewBox[1] / 1,
+    w: width,
+    h: height,
+    vW: viewBox[2],
+    vH: viewBox[3]
+  };
+}
+
+function getPath(path, percent) {
+  var pathEl = is.str(path) ? selectString(path)[0] : path;
+  var p = percent || 100;
+  return function (property) {
+    return {
+      property: property,
+      el: pathEl,
+      svg: getParentSvg(pathEl),
+      totalLength: getTotalLength(pathEl) * (p / 100)
+    };
+  };
+}
+
+function getPathProgress(path, progress, isPathTargetInsideSVG) {
+  function point(offset) {
+    if (offset === void 0) offset = 0;
+    var l = progress + offset >= 1 ? progress + offset : 0;
+    return path.el.getPointAtLength(l);
+  }
+
+  var svg = getParentSvg(path.el, path.svg);
+  var p = point();
+  var p0 = point(-1);
+  var p1 = point(+1);
+  var scaleX = isPathTargetInsideSVG ? 1 : svg.w / svg.vW;
+  var scaleY = isPathTargetInsideSVG ? 1 : svg.h / svg.vH;
+
+  switch (path.property) {
+    case 'x':
+      return (p.x - svg.x) * scaleX;
+
+    case 'y':
+      return (p.y - svg.y) * scaleY;
+
+    case 'angle':
+      return Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180 / Math.PI;
+  }
 }
 
 anime.version = '3.1.0';
@@ -1095,6 +1240,8 @@ anime.get = getOriginalTargetValue;
 anime.set = setTargetsValue;
 anime.convertPx = convertPxToUnit;
 anime.penner = penner;
+anime.path = getPath;
+anime.getPathProgress = getPathProgress;
 var transform = ["translateX", "translateY", "translateZ", "rotate", "rotateX", "rotateY", "rotateZ", "scale", "scaleX", "scaleY", "scaleZ", "skewX", "skewY", "perspective"];
 var compositeAttributes = {
   transform: transform
@@ -1140,8 +1287,8 @@ function getMatrix2D(win, element) {
 
 var Anime =
 /*#__PURE__*/
-function (_MC$API$MonoIncident) {
-  _inherits$1(Anime, _MC$API$MonoIncident);
+function (_MC$Effect) {
+  _inherits$1(Anime, _MC$Effect);
 
   var _super = _createSuper(Anime);
 
@@ -1155,7 +1302,6 @@ function (_MC$API$MonoIncident) {
     key: "onGetContext",
     value: function onGetContext() {
       var options = {};
-      var initialize = {};
 
       if (Object.prototype.hasOwnProperty.call(compositeAttributes, this.attributeKey)) {
         var compoAttribute = compositeAttributes[this.attributeKey];
@@ -1166,11 +1312,9 @@ function (_MC$API$MonoIncident) {
           }
 
           options[compoAttribute[i]] = [this.getInitialValue()[compoAttribute[i]], this.targetValue[compoAttribute[i]]];
-          initialize[compoAttribute[i]] = [this.getScratchValue(), this.targetValue[compoAttribute[i]]];
         }
       } else {
         options[this.attributeKey] = [this.getInitialValue(), this.targetValue];
-        initialize[this.targetValue] = [this.getScratchValue(), this.targetValue];
       }
 
       this.target = anime(_objectSpread2$1({
@@ -1213,7 +1357,7 @@ function (_MC$API$MonoIncident) {
   }]);
 
   return Anime;
-}(MC.API.MonoIncident);
+}(MC.Effect);
 
 var nu = ["cm", "mm", "in", "px", "pt", "pc", "em", "ex", "ch", "rem", "vw", "vh", "vmin", "vmax", "%"];
 var ru = ["deg", "rad", "grad", "turn"];
@@ -2094,8 +2238,8 @@ var Anime$1 = MC.loadPlugin(index);
 
 var CrossMoveRight =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(CrossMoveRight, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(CrossMoveRight, _MotorCortex$HTMLClip);
 
   function CrossMoveRight() {
     _classCallCheck(this, CrossMoveRight);
@@ -2170,7 +2314,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return CrossMoveRight;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var CrossMoveRight_1 = CrossMoveRight;
 
@@ -2178,8 +2322,8 @@ var Anime$2 = MC.loadPlugin(index);
 
 var CrossMoveRightOutline =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(CrossMoveRightOutline, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(CrossMoveRightOutline, _MotorCortex$HTMLClip);
 
   function CrossMoveRightOutline() {
     _classCallCheck(this, CrossMoveRightOutline);
@@ -2245,7 +2389,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return CrossMoveRightOutline;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var CrossMoveRightOutline_1 = CrossMoveRightOutline;
 
@@ -2253,8 +2397,8 @@ var Anime$3 = MC.loadPlugin(index);
 
 var CrossRandom =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(CrossRandom, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(CrossRandom, _MotorCortex$HTMLClip);
 
   function CrossRandom() {
     _classCallCheck(this, CrossRandom);
@@ -2333,7 +2477,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return CrossRandom;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var CrossRandom_1 = CrossRandom;
 
@@ -2341,8 +2485,8 @@ var Anime$4 = MC.loadPlugin(index);
 
 var VerticalLinesMove =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(VerticalLinesMove, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(VerticalLinesMove, _MotorCortex$HTMLClip);
 
   function VerticalLinesMove() {
     _classCallCheck(this, VerticalLinesMove);
@@ -2408,7 +2552,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return VerticalLinesMove;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var VerticalLinesMove_1 = VerticalLinesMove;
 
@@ -2416,8 +2560,8 @@ var Anime$5 = MC.loadPlugin(index);
 
 var HorizontalLinesMove =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(HorizontalLinesMove, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(HorizontalLinesMove, _MotorCortex$HTMLClip);
 
   function HorizontalLinesMove() {
     _classCallCheck(this, HorizontalLinesMove);
@@ -2483,7 +2627,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return HorizontalLinesMove;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var HorizontalLinesMove_1 = HorizontalLinesMove;
 
@@ -2491,8 +2635,8 @@ var Anime$6 = MC.loadPlugin(index);
 
 var CircleExplosion =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(CircleExplosion, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(CircleExplosion, _MotorCortex$HTMLClip);
 
   function CircleExplosion() {
     _classCallCheck(this, CircleExplosion);
@@ -2578,7 +2722,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return CircleExplosion;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var CircleExplosion_1 = CircleExplosion;
 
@@ -2586,8 +2730,8 @@ var Anime$7 = MC.loadPlugin(index);
 
 var CircleBubbleUp =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(CircleBubbleUp, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(CircleBubbleUp, _MotorCortex$HTMLClip);
 
   function CircleBubbleUp() {
     _classCallCheck(this, CircleBubbleUp);
@@ -2680,7 +2824,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return CircleBubbleUp;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var CircleBubbleUp_1 = CircleBubbleUp;
 
@@ -2688,8 +2832,8 @@ var Anime$8 = MC.loadPlugin(index);
 
 var Dots =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(Dots, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(Dots, _MotorCortex$HTMLClip);
 
   function Dots() {
     _classCallCheck(this, Dots);
@@ -2741,7 +2885,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return Dots;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var Dots_1 = Dots;
 
@@ -2749,8 +2893,8 @@ var Anime$9 = MC.loadPlugin(index);
 
 var CrossRowReveal =
 /*#__PURE__*/
-function (_MotorCortex$API$Clip) {
-  _inherits(CrossRowReveal, _MotorCortex$API$Clip);
+function (_MotorCortex$HTMLClip) {
+  _inherits(CrossRowReveal, _MotorCortex$HTMLClip);
 
   function CrossRowReveal() {
     _classCallCheck(this, CrossRowReveal);
@@ -2819,7 +2963,7 @@ function (_MotorCortex$API$Clip) {
   }]);
 
   return CrossRowReveal;
-}(MC.API.Clip);
+}(MC.HTMLClip);
 
 var CrossRowReveal_1 = CrossRowReveal;
 

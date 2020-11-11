@@ -2,7 +2,7 @@ const MotorCortex = require("@kissmybutton/motorcortex");
 const AnimeDefinition = require("@kissmybutton/motorcortex-anime");
 const Anime = MotorCortex.loadPlugin(AnimeDefinition);
 
-class VerticalLinesMove extends MotorCortex.API.Clip {
+class VerticalLinesMove extends MotorCortex.HTMLClip {
   get font() {
     return [
       {
