@@ -3317,7 +3317,7 @@ var CrossMoveRightValidation$1 = validation.CrossMoveRightValidation,
     DotsValidation$1 = validation.DotsValidation,
     CrossRowRevealValidation$1 = validation.CrossRowRevealValidation;
 var src = {
-  npm_name: "@kissmybutton/motorcortex-animebanners",
+  npm_name: "@kissmybutton/motorcortex-abstracts",
   incidents: [{
     exportable: CrossMoveRight_1,
     name: "CrossMoveRight",

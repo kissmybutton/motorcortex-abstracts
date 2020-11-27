@@ -48,8 +48,8 @@ const html = `
 const host = document.getElementById("clip");
 
 const containerParams = {
-  width: "100%",
-  height: "100%"
+  width: "1728px",
+  height: "872px"
 };
 
 const clip = new MotorCortex.HTMLClip({
@@ -207,5 +207,7 @@ clip.addIncident(CircleBubbleUp, 0);
 clip.addIncident(HorizontalLinesMove, 0);
 clip.addIncident(Dots, 0);
 clip.addIncident(CrossRowReveal, 0);
+
+window.clip = clip
 
 new Player({ clip, timeFormat: "ms" });

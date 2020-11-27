@@ -20,7 +20,7 @@ const {
 } = require("./validation");
 
 module.exports = {
-  npm_name: "@kissmybutton/motorcortex-animebanners",
+  npm_name: "@kissmybutton/motorcortex-abstracts",
   incidents: [
     {
       exportable: CrossMoveRight,
