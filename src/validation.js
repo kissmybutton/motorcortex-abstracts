@@ -1,4 +1,4 @@
-exports.CrossMoveRightValidation = {
+export const CrossMoveRightValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   crossSize: { optional: false, type: "number" },
@@ -8,7 +8,7 @@ exports.CrossMoveRightValidation = {
   color: { optional: false, type: "color" }
 };
 
-exports.CrossMoveRightOutlineValidation = {
+export const CrossMoveRightOutlineValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   crossSize: { optional: false, type: "number" },
@@ -17,7 +17,7 @@ exports.CrossMoveRightOutlineValidation = {
   color: { optional: false, type: "color" }
 };
 
-exports.CrossRandomValidation = {
+export const CrossRandomValidation = {
   width: { optional: false, type: "number" },
   crossSize: { optional: false, type: "number" },
   crossThickness: { optional: false, type: "number" },
@@ -27,19 +27,19 @@ exports.CrossRandomValidation = {
   timing: { optional: true, type: "number" }
 };
 
-exports.VerticalLinesMoveValidation = {
+export const VerticalLinesMoveValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxLineWidth: { optional: false, type: "number" },
   color: { optional: false, type: "color" }
 };
-exports.HorizontalLinesMoveValidation = {
+export const HorizontalLinesMoveValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxLineHeight: { optional: false, type: "number" },
   color: { optional: false, type: "color" }
 };
-exports.CircleExplosionValidation = {
+export const CircleExplosionValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxCirlcleSize: { optional: false, type: "number" },
@@ -51,7 +51,7 @@ exports.CircleExplosionValidation = {
   border: { optional: false, type: "boolean" }
 };
 
-exports.CircleBubbleUp = {
+export const CircleBubbleUp = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxCirlcleSize: { optional: false, type: "number" },
@@ -61,7 +61,7 @@ exports.CircleBubbleUp = {
   border: { optional: false, type: "boolean" }
 };
 
-exports.DotsValidation = {
+export const DotsValidation = {
   width: { optional: false, type: "number" },
   dotSize: { optional: false, type: "number" },
   items: { optional: false, type: "number" },
@@ -73,7 +73,7 @@ exports.DotsValidation = {
   repeats: { optional: false, type: "number" }
 };
 
-exports.CrossRowRevealValidation = {
+export const CrossRowRevealValidation = {
   width: { optional: false, type: "number" },
   crossSize: { optional: false, type: "number" },
   crossThickness: { optional: false, type: "number" },

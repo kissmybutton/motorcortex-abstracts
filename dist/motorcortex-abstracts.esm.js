@@ -266,8 +266,8 @@ function _createSuper(Derived) {
   };
 }
 /*
- * anime.js v3.1.4
- * (c) 2020 Julian Garnier
+ * anime.js v3.1.5
+ * (c) 2021 Julian Garnier
  * Released under the MIT license
  * animejs.com
  */
@@ -1232,8 +1232,10 @@ function getPathProgress(path, progress, isPathTargetInsideSVG) {
   var p = point();
   var p0 = point(-1);
   var p1 = point(+1);
-  var scaleX = isPathTargetInsideSVG ? 1 : svg.w / svg.vW;
-  var scaleY = isPathTargetInsideSVG ? 1 : svg.h / svg.vH;
+  var scaleX = 1; //isPathTargetInsideSVG ? 1 : svg.w / svg.vW;
+
+  var scaleY = 1; //isPathTargetInsideSVG ? 1 : svg.h / svg.vH;
+
   return {
     x: (p.x - svg.x) * scaleX,
     y: (p.y - svg.y) * scaleY,
@@ -2274,8 +2276,12 @@ var animatedAttrs = {
     min: 0
   }
 };
+
+var pkg = require('../package.json');
+
 var index = {
-  npm_name: "@kissmybutton/motorcortex-anime",
+  npm_name: pkg.name,
+  version: pkg.version,
   incidents: [{
     exportable: Anime,
     name: "Anime",
@@ -3197,36 +3203,6 @@ var CircleExplosionValidation = {
     type: "boolean"
   }
 };
-var CircleBubbleUp$1 = {
-  width: {
-    optional: false,
-    type: "number"
-  },
-  height: {
-    optional: false,
-    type: "number"
-  },
-  maxCirlcleSize: {
-    optional: false,
-    type: "number"
-  },
-  travelDistance: {
-    optional: false,
-    type: "number"
-  },
-  color: {
-    optional: false,
-    type: "color"
-  },
-  items: {
-    optional: false,
-    type: "number"
-  },
-  border: {
-    optional: false,
-    type: "boolean"
-  }
-};
 var DotsValidation = {
   width: {
     optional: false,
@@ -3295,69 +3271,49 @@ var CrossRowRevealValidation = {
     type: "number"
   }
 };
-var validation = {
-  CrossMoveRightValidation: CrossMoveRightValidation,
-  CrossMoveRightOutlineValidation: CrossMoveRightOutlineValidation,
-  CrossRandomValidation: CrossRandomValidation,
-  VerticalLinesMoveValidation: VerticalLinesMoveValidation,
-  HorizontalLinesMoveValidation: HorizontalLinesMoveValidation,
-  CircleExplosionValidation: CircleExplosionValidation,
-  CircleBubbleUp: CircleBubbleUp$1,
-  DotsValidation: DotsValidation,
-  CrossRowRevealValidation: CrossRowRevealValidation
-};
 
-var CrossMoveRightValidation$1 = validation.CrossMoveRightValidation,
-    CrossMoveRightOutlineValidation$1 = validation.CrossMoveRightOutlineValidation,
-    CrossRandomValidation$1 = validation.CrossRandomValidation,
-    VerticalLinesMoveValidation$1 = validation.VerticalLinesMoveValidation,
-    CircleExplosionValidation$1 = validation.CircleExplosionValidation,
-    CircleBubbleUpValidation = validation.CircleBubbleUpValidation,
-    HorizontalLinesMoveValidation$1 = validation.HorizontalLinesMoveValidation,
-    DotsValidation$1 = validation.DotsValidation,
-    CrossRowRevealValidation$1 = validation.CrossRowRevealValidation;
-var src = {
-  npm_name: "@kissmybutton/motorcortex-abstracts",
+var pkg$1 = require('../package.json');
+
+var index$1 = {
+  npm_name: pkg$1.name,
+  version: pkg$1.version,
   incidents: [{
     exportable: CrossMoveRight_1,
     name: "CrossMoveRight",
-    attributesValidationRules: _objectSpread2({}, CrossMoveRightValidation$1)
+    attributesValidationRules: _objectSpread2({}, CrossMoveRightValidation)
   }, {
     exportable: CrossMoveRightOutline_1,
     name: "CrossMoveRightOutline",
-    attributesValidationRules: _objectSpread2({}, CrossMoveRightOutlineValidation$1)
+    attributesValidationRules: _objectSpread2({}, CrossMoveRightOutlineValidation)
   }, {
     exportable: CrossRandom_1,
     name: "CrossRandom",
-    attributesValidationRules: _objectSpread2({}, CrossRandomValidation$1)
+    attributesValidationRules: _objectSpread2({}, CrossRandomValidation)
   }, {
     exportable: VerticalLinesMove_1,
     name: "VerticalLinesMove",
-    attributesValidationRules: _objectSpread2({}, VerticalLinesMoveValidation$1)
+    attributesValidationRules: _objectSpread2({}, VerticalLinesMoveValidation)
   }, {
     exportable: HorizontalLinesMove_1,
     name: "HorizontalLinesMove",
-    attributesValidationRules: _objectSpread2({}, HorizontalLinesMoveValidation$1)
+    attributesValidationRules: _objectSpread2({}, HorizontalLinesMoveValidation)
   }, {
     exportable: CircleExplosion_1,
     name: "CircleExplosion",
-    attributesValidationRules: _objectSpread2({}, CircleExplosionValidation$1)
+    attributesValidationRules: _objectSpread2({}, CircleExplosionValidation)
   }, {
     exportable: CircleBubbleUp_1,
-    name: "CircleBubbleUp",
-    attributesValidationRules: _objectSpread2({}, CircleBubbleUpValidation)
+    name: "CircleBubbleUp" // attributesValidationRules: { CircleBubbleUpValidation }
+
   }, {
     exportable: Dots_1,
     name: "Dots",
-    attributesValidationRules: _objectSpread2({}, DotsValidation$1)
+    attributesValidationRules: _objectSpread2({}, DotsValidation)
   }, {
     exportable: CrossRowReveal_1,
     name: "CrossRowReveal",
-    attributesValidationRules: _objectSpread2({}, CrossRowRevealValidation$1)
+    attributesValidationRules: _objectSpread2({}, CrossRowRevealValidation)
   }]
 };
-var src_1 = src.npm_name;
-var src_2 = src.incidents;
 
-export default src;
-export { src_2 as incidents, src_1 as npm_name };
+export default index$1;

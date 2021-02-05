@@ -1,26 +1,30 @@
-const CrossMoveRight = require("./CrossMoveRight");
-const CrossMoveRightOutline = require("./CrossMoveRightOutline");
-const CrossRandom = require("./CrossRandom");
-const VerticalLinesMove = require("./VerticalLinesMove");
-const HorizontalLinesMove = require("./HorizontalLinesMove");
-const CircleExplosion = require("./CircleExplosion");
-const CircleBubbleUp = require("./CircleBubbleUp");
-const Dots = require("./Dots");
-const CrossRowReveal = require("./CrossRowReveal");
-const {
+import CrossMoveRight from "./CrossMoveRight";
+import CrossMoveRightOutline from "./CrossMoveRightOutline";
+import CrossRandom from "./CrossRandom";
+import VerticalLinesMove from "./VerticalLinesMove";
+import HorizontalLinesMove from "./HorizontalLinesMove";
+import CircleExplosion from "./CircleExplosion";
+import CircleBubbleUp from "./CircleBubbleUp";
+import Dots from "./Dots";
+import CrossRowReveal from "./CrossRowReveal";
+// import {CrossMoveRightValidation,CrossMoveRightOutlineValidation,CrossRandomValidation} from "./validation"
+import {
   CrossMoveRightValidation,
   CrossMoveRightOutlineValidation,
   CrossRandomValidation,
   VerticalLinesMoveValidation,
   CircleExplosionValidation,
-  CircleBubbleUpValidation,
+  // CircleBubbleUpValidation,
   HorizontalLinesMoveValidation,
   DotsValidation,
   CrossRowRevealValidation
-} = require("./validation");
+} from "./validation";
 
-module.exports = {
-  npm_name: "@kissmybutton/motorcortex-abstracts",
+const pkg = require("../package.json");
+
+export default {
+  npm_name: pkg.name,
+  version: pkg.version,
   incidents: [
     {
       exportable: CrossMoveRight,
@@ -54,8 +58,8 @@ module.exports = {
     },
     {
       exportable: CircleBubbleUp,
-      name: "CircleBubbleUp",
-      attributesValidationRules: { ...CircleBubbleUpValidation }
+      name: "CircleBubbleUp"
+      // attributesValidationRules: { CircleBubbleUpValidation }
     },
     {
       exportable: Dots,
