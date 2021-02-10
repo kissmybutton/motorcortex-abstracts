@@ -1402,6 +1402,8 @@ function (_MotorCortex$Effect) {
   _createClass$1(MotionPath, [{
     key: "onGetContext",
     value: function onGetContext() {
+      this.pixelsAccuracy = this.attrs.pixelsAccuracy || 4;
+      this.calculatedPoints = [];
       var svgEl = this.context.getElements(this.targetValue.pathElement)[0];
       this.path = anime_es.path(svgEl);
       this.isPathTargetInsideSVG = this.element instanceof SVGElement;
@@ -1409,9 +1411,18 @@ function (_MotorCortex$Effect) {
   }, {
     key: "onProgress",
     value: function onProgress(f) {
-      var position = anime_es.getPathProgress(this.path, f, this.isPathTargetInsideSVG); // console.log(position);
+      var toSet;
+      var distance = Math.round(this.path.totalLength / this.pixelsAccuracy * f) * this.pixelsAccuracy;
 
-      var toSet = "\n            translateX(".concat(position.x, "px) \n            translateY(").concat(position.y, "px) \n            rotate(").concat(position.angle, "deg)\n        ");
+      if (this.calculatedPoints[distance] !== null && this.calculatedPoints[distance] !== undefined) {
+        toSet = this.calculatedPoints[distance];
+      } else {
+        var position = anime_es.getPathProgress(this.path, distance / this.path.totalLength, this.isPathTargetInsideSVG); // console.log(position);
+
+        toSet = "\n            translateX(".concat(position.x, "px)\n            translateY(").concat(position.y, "px)\n            rotate(").concat(position.angle, "deg)\n        ");
+        this.calculatedPoints[distance] = toSet;
+      }
+
       this.element.style.transform = toSet;
     }
   }]);
@@ -2282,12 +2293,11 @@ var animatedAttrs = {
     min: 0
   }
 };
-
-var pkg = require('../package.json');
-
+var name = "@kissmybutton/motorcortex-anime";
+var version = "2.1.11";
 var index = {
-  npm_name: pkg.name,
-  version: pkg.version,
+  npm_name: name,
+  version: version,
   incidents: [{
     exportable: Anime,
     name: "Anime",
@@ -3278,11 +3288,12 @@ var CrossRowRevealValidation = {
   }
 };
 
-var pkg$1 = require('../package.json');
+var name$1 = "@kissmybutton/motorcortex-abstracts";
+var version$1 = "0.0.9";
 
 var index$1 = {
-  npm_name: pkg$1.name,
-  version: pkg$1.version,
+  npm_name: name$1,
+  version: version$1,
   incidents: [{
     exportable: CrossMoveRight_1,
     name: "CrossMoveRight",
