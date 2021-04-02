@@ -1,6 +1,6 @@
 {
   "name": "@kissmybutton/motorcortex-abstracts",
-  "version": "0.0.10",
+  "version": "1.0.0",
   "description": "Abstracts plugin for MotorCortex",
   "main": "dist/motorcortex-abstracts.cjs.js",
   "module": "dist/motorcortex-abstracts.esm.js",
