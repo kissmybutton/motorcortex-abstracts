@@ -1,7 +1,7 @@
-const MotorCortex = require("@kissmybutton/motorcortex");
-const Player = require("@kissmybutton/motorcortex-player/");
-const AbstractsDefinition = require("../dist/motorcortex-abstracts.umd");
-const Plugin = MotorCortex.loadPlugin(AbstractsDefinition);
+import { HTMLClip, loadPlugin } from "@kissmybutton/motorcortex";
+import Player from "@kissmybutton/motorcortex-player/";
+import AbstractsDefinition from "../";
+const Plugin = loadPlugin(AbstractsDefinition);
 
 const css = `
   .container {
@@ -29,7 +29,7 @@ const css = `
   }
 `;
 
-const html = ` 
+const html = `
   <div class="flex">
     <div class="wrapper">
       <div class="container container1"></div>
@@ -49,10 +49,10 @@ const host = document.getElementById("clip");
 
 const containerParams = {
   width: "1728px",
-  height: "872px"
+  height: "872px",
 };
 
-const clip = new MotorCortex.HTMLClip({
+const clip = new HTMLClip({
   css,
   html,
   host,
@@ -61,12 +61,10 @@ const clip = new MotorCortex.HTMLClip({
   fonts: [
     {
       type: `google-font`,
-      src: `https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap`
-    }
-  ]
+      src: `https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap`,
+    },
+  ],
 });
-
-const overlayColor = ["#BB00FF91", "#00FFE791", "#FFD70091"];
 
 const CrossMoveRight = new Plugin.CrossMoveRight(
   {
@@ -76,10 +74,10 @@ const CrossMoveRight = new Plugin.CrossMoveRight(
     crossThickness: 5,
     travelDistance: 240,
     items: 3,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container1"
+    selector: ".container1",
   }
 );
 
@@ -90,10 +88,10 @@ const CrossMoveRightOutline = new Plugin.CrossMoveRightOutline(
     crossSize: 30,
     travelDistance: 240,
     steps: 5,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container2"
+    selector: ".container2",
   }
 );
 
@@ -105,10 +103,10 @@ const CrossRandom = new Plugin.CrossRandom(
     items: 12,
     color: "#8300ff",
     rows: 3,
-    timing: 0.5
+    timing: 0.5,
   },
   {
-    selector: ".container3"
+    selector: ".container3",
   }
 );
 
@@ -117,10 +115,10 @@ const VerticalLinesMove = new Plugin.VerticalLinesMove(
     width: 425,
     height: 240,
     maxLineWidth: 250,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container4"
+    selector: ".container4",
   }
 );
 
@@ -134,10 +132,10 @@ const CircleExplosion = new Plugin.CircleExplosion(
     items: 5,
     minR: 0,
     maxR: 180,
-    border: true
+    border: true,
   },
   {
-    selector: ".container5"
+    selector: ".container5",
   }
 );
 
@@ -149,10 +147,10 @@ const CircleBubbleUp = new Plugin.CircleBubbleUp(
     travelDistance: 200,
     color: "#8300ff",
     items: 5,
-    border: true
+    border: true,
   },
   {
-    selector: ".container6"
+    selector: ".container6",
   }
 );
 const HorizontalLinesMove = new Plugin.HorizontalLinesMove(
@@ -160,10 +158,10 @@ const HorizontalLinesMove = new Plugin.HorizontalLinesMove(
     width: 425,
     height: 240,
     maxLineHeight: 50,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container7"
+    selector: ".container7",
   }
 );
 const Dots = new Plugin.Dots(
@@ -176,10 +174,10 @@ const Dots = new Plugin.Dots(
     columnGap: 50,
     rows: 7,
     timing: 1.5,
-    repeats: 3
+    repeats: 3,
   },
   {
-    selector: ".container8"
+    selector: ".container8",
   }
 );
 
@@ -191,10 +189,10 @@ const CrossRowReveal = new Plugin.CrossRowReveal(
     items: 8,
     color: "#8300ff",
     reverse: false,
-    timing: 1
+    timing: 1,
   },
   {
-    selector: ".container9"
+    selector: ".container9",
   }
 );
 
@@ -208,6 +206,6 @@ clip.addIncident(HorizontalLinesMove, 0);
 clip.addIncident(Dots, 0);
 clip.addIncident(CrossRowReveal, 0);
 
-window.clip = clip
+window.clip = clip;
 
 new Player({ clip, timeFormat: "ms" });
