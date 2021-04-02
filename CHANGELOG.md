@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://www.github.com/kissmybutton/motorcortex-abstracts/compare/v1.0.0...v1.0.1) (2021-04-02)
+
+
+### Bug Fixes
+
+* install missing dependencies ([d46564a](https://www.github.com/kissmybutton/motorcortex-abstracts/commit/d46564aec04295e8f7b0af51a49d609ee2f92ae5))
+
 ## 1.0.0 (2021-04-02)
 
 
