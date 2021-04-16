@@ -7,20 +7,19 @@ import CircleExplosion from "./CircleExplosion";
 import CircleBubbleUp from "./CircleBubbleUp";
 import Dots from "./Dots";
 import CrossRowReveal from "./CrossRowReveal";
-// import {CrossMoveRightValidation,CrossMoveRightOutlineValidation,CrossRandomValidation} from "./validation"
 import {
   CrossMoveRightValidation,
   CrossMoveRightOutlineValidation,
   CrossRandomValidation,
   VerticalLinesMoveValidation,
   CircleExplosionValidation,
-  // CircleBubbleUpValidation,
+  CircleBubbleUpValidation,
   HorizontalLinesMoveValidation,
   DotsValidation,
-  CrossRowRevealValidation
+  CrossRowRevealValidation,
 } from "./validation";
 
-import {name,version}  from '../package.json'
+import { name, version } from "../package.json";
 
 export default {
   npm_name: name,
@@ -29,47 +28,47 @@ export default {
     {
       exportable: CrossMoveRight,
       name: "CrossMoveRight",
-      attributesValidationRules: { ...CrossMoveRightValidation }
+      attributesValidationRules: { ...CrossMoveRightValidation },
     },
     {
       exportable: CrossMoveRightOutline,
       name: "CrossMoveRightOutline",
-      attributesValidationRules: { ...CrossMoveRightOutlineValidation }
+      attributesValidationRules: { ...CrossMoveRightOutlineValidation },
     },
     {
       exportable: CrossRandom,
       name: "CrossRandom",
-      attributesValidationRules: { ...CrossRandomValidation }
+      attributesValidationRules: { ...CrossRandomValidation },
     },
     {
       exportable: VerticalLinesMove,
       name: "VerticalLinesMove",
-      attributesValidationRules: { ...VerticalLinesMoveValidation }
+      attributesValidationRules: { ...VerticalLinesMoveValidation },
     },
     {
       exportable: HorizontalLinesMove,
       name: "HorizontalLinesMove",
-      attributesValidationRules: { ...HorizontalLinesMoveValidation }
+      attributesValidationRules: { ...HorizontalLinesMoveValidation },
     },
     {
       exportable: CircleExplosion,
       name: "CircleExplosion",
-      attributesValidationRules: { ...CircleExplosionValidation }
+      attributesValidationRules: { ...CircleExplosionValidation },
     },
     {
       exportable: CircleBubbleUp,
-      name: "CircleBubbleUp"
-      // attributesValidationRules: { CircleBubbleUpValidation }
+      name: "CircleBubbleUp",
+      attributesValidationRules: { ...CircleBubbleUpValidation },
     },
     {
       exportable: Dots,
       name: "Dots",
-      attributesValidationRules: { ...DotsValidation }
+      attributesValidationRules: { ...DotsValidation },
     },
     {
       exportable: CrossRowReveal,
       name: "CrossRowReveal",
-      attributesValidationRules: { ...CrossRowRevealValidation }
-    }
-  ]
+      attributesValidationRules: { ...CrossRowRevealValidation },
+    },
+  ],
 };

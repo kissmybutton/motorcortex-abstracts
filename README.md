@@ -1,7 +1,7 @@
-
 # motorcortex-abstracts
 
 ## Demo
+
 [Check it out here](https://kissmybutton.github.io/motorcortex-abstracts/demo/index.html)
 
 ## Installation
@@ -15,9 +15,9 @@ $ yarn add @kissmybutton/motorcortex-abstracts
 ## Loading
 
 ```javascript
-const MotorCortex = require("@kissmybutton/motorcortex/");
-const AbstractsDefinition = require("@kissmybutton/motorcortex-abstracts");
-const Plugin = MotorCortex.loadPlugin(AbstractsDefinition);
+import { loadPlugin } from "@kissmybutton/motorcortex";
+import AbstractsDefinition from "@kissmybutton/motorcortex-abstracts";
+const Plugin = loadPlugin(AbstractsDefinition);
 ```
 
 # Create incident
@@ -33,25 +33,25 @@ const CrossMoveRight = new Plugin.CrossMoveRight(
     crossThiknes: 5,
     travelDistance: 240,
     items: 3,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container1"
+    selector: ".container1",
   }
 );
 ```
 
 ### CrossMoveRight Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| crossSize     | height and width of cross  | num |
-| crossThickness     | cross line thickness  | num |
-| travelDistance     | how far cross will move  | num |
-| items     | how many crosses will be in an incident  | num |
-| color     | color of the crosses  | hex,rgb or color name |
+| Name           |                   Are                   |                Values |
+| -------------- | :-------------------------------------: | --------------------: |
+| width          |            width of incident            |                   num |
+| height         |           height of incident            |                   num |
+| crossSize      |        height and width of cross        |                   num |
+| crossThickness |          cross line thickness           |                   num |
+| travelDistance |         how far cross will move         |                   num |
+| items          | how many crosses will be in an incident |                   num |
+| color          |          color of the crosses           | hex,rgb or color name |
 
 ## CrossMoveRightOutline
 
@@ -63,25 +63,24 @@ const CrossMoveRightOutline = new Plugin.CrossMoveRightOutline(
     crossSize: 30,
     travelDistance: 240,
     steps: 5,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container2"
+    selector: ".container2",
   }
 );
 ```
 
 ### CrossMoveRightOutline Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| crossSize     | height and width of cross  | num |
-| travelDistance     | how far cross will move  | num |
-| steps     | how many steps will cross make to reach the end  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-
+| Name           |                       Are                       |                Values |
+| -------------- | :---------------------------------------------: | --------------------: |
+| width          |                width of incident                |                   num |
+| height         |               height of incident                |                   num |
+| crossSize      |            height and width of cross            |                   num |
+| travelDistance |             how far cross will move             |                   num |
+| steps          | how many steps will cross make to reach the end |                   num |
+| color          |              color of the crosses               | hex,rgb or color name |
 
 ## CrossRandom
 
@@ -94,25 +93,25 @@ const CrossRandom = new Plugin.CrossRandom(
     items: 12,
     color: "#8300ff",
     rows: 3,
-    timing: 0.5
+    timing: 0.5,
   },
   {
-    selector: ".container3"
+    selector: ".container3",
   }
 );
 ```
 
 ### CrossRandom Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| crossSize     | height and width of cross  | num |
-| crossThickness     | cross line thickness  | num |
-| items     | how many cross will be  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-| rows     | how many rows of cross will be  | num |
-| timing     | incident duration multiplier  | num |
+| Name           |              Are               |                Values |
+| -------------- | :----------------------------: | --------------------: |
+| width          |       width of incident        |                   num |
+| crossSize      |   height and width of cross    |                   num |
+| crossThickness |      cross line thickness      |                   num |
+| items          |     how many cross will be     |                   num |
+| color          |      color of the crosses      | hex,rgb or color name |
+| rows           | how many rows of cross will be |                   num |
+| timing         |  incident duration multiplier  |                   num |
 
 ## VerticalLinesMove
 
@@ -122,22 +121,22 @@ const VerticalLinesMove = new Plugin.VerticalLinesMove(
     width: 425,
     height: 240,
     maxLineWidth: 250,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container4"
+    selector: ".container4",
   }
 );
 ```
 
 ### VerticalLinesMove Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| maxLineWidth  | the maximum width of a line  | num |
-| color     | color of the crosses  | hex,rgb or color name |
+| Name         |             Are             |                Values |
+| ------------ | :-------------------------: | --------------------: |
+| width        |      width of incident      |                   num |
+| height       |     height of incident      |                   num |
+| maxLineWidth | the maximum width of a line |                   num |
+| color        |    color of the crosses     | hex,rgb or color name |
 
 ## CircleExplosion
 
@@ -152,27 +151,27 @@ const CircleExplosion = new Plugin.CircleExplosion(
     items: 5,
     minR: 0,
     maxR: 180,
-    border: true
+    border: true,
   },
   {
-    selector: ".container5"
+    selector: ".container5",
   }
 );
 ```
 
 ### CircleExplosion Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| maxCirlcleSize  | the maximum size of a circle  | num |
-| travelDistance     | how far cross will move  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-| items     | how many circles will be  | num |
-| minR     | indicate the minimum angle of circle movement  |num |
-| maxR     | indicate the maximum angle of circle movement  | num |
-| border     | if circle will be hollow  | boolean |
+| Name           |                      Are                      |                Values |
+| -------------- | :-------------------------------------------: | --------------------: |
+| width          |               width of incident               |                   num |
+| height         |              height of incident               |                   num |
+| maxCirlcleSize |         the maximum size of a circle          |                   num |
+| travelDistance |            how far cross will move            |                   num |
+| color          |             color of the crosses              | hex,rgb or color name |
+| items          |           how many circles will be            |                   num |
+| minR           | indicate the minimum angle of circle movement |                   num |
+| maxR           | indicate the maximum angle of circle movement |                   num |
+| border         |           if circle will be hollow            |               boolean |
 
 ## CircleBubbleUp
 
@@ -185,25 +184,25 @@ const CircleBubbleUp = new Plugin.CircleBubbleUp(
     travelDistance: 200,
     color: "#8300ff",
     items: 5,
-    border: true
+    border: true,
   },
   {
-    selector: ".container6"
+    selector: ".container6",
   }
 );
 ```
 
 ### CircleBubbleUp Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| maxCirlcleSize  | the maximum size of a circle  | num |
-| travelDistance     | how far cross will move  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-| items     | how many circles will be  | num |
-| border     | if circle will be hollow  | boolean |
+| Name           |             Are              |                Values |
+| -------------- | :--------------------------: | --------------------: |
+| width          |      width of incident       |                   num |
+| height         |      height of incident      |                   num |
+| maxCirlcleSize | the maximum size of a circle |                   num |
+| travelDistance |   how far cross will move    |                   num |
+| color          |     color of the crosses     | hex,rgb or color name |
+| items          |   how many circles will be   |                   num |
+| border         |   if circle will be hollow   |               boolean |
 
 ## HorizontalLinesMove
 
@@ -213,23 +212,22 @@ const HorizontalLinesMove = new Plugin.HorizontalLinesMove(
     width: 425,
     height: 240,
     maxLineHeight: 50,
-    color: "#8300ff"
+    color: "#8300ff",
   },
   {
-    selector: ".container7"
+    selector: ".container7",
   }
 );
 ```
 
 ### HorizontalLinesMove Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| maxLineWidth  | the maximum width of a line  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-
+| Name         |             Are             |                Values |
+| ------------ | :-------------------------: | --------------------: |
+| width        |      width of incident      |                   num |
+| height       |     height of incident      |                   num |
+| maxLineWidth | the maximum width of a line |                   num |
+| color        |    color of the crosses     | hex,rgb or color name |
 
 ## Dots
 
@@ -244,28 +242,28 @@ const Dots = new Plugin.Dots(
     columnGap: 50,
     rows: 7,
     timing: 1.5,
-    repeats: 3
+    repeats: 3,
   },
   {
-    selector: ".container8"
+    selector: ".container8",
   }
 );
 ```
 
 ### Dots Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| dotSize  | the size of a dots  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-| rowGap  | the gap between every row of dots  | num |
-| columnGap  | the gap between every column of dots  | num |
-| items     | how many dots will be  | num |
-| rows     | how many rows of dots will be  | num |
-| timing     | incident duration multiplier  | num |
-| repeats     | how many times dots will be flashing  | num |
+| Name      |                 Are                  |                Values |
+| --------- | :----------------------------------: | --------------------: |
+| width     |          width of incident           |                   num |
+| height    |          height of incident          |                   num |
+| dotSize   |          the size of a dots          |                   num |
+| color     |         color of the crosses         | hex,rgb or color name |
+| rowGap    |  the gap between every row of dots   |                   num |
+| columnGap | the gap between every column of dots |                   num |
+| items     |        how many dots will be         |                   num |
+| rows      |    how many rows of dots will be     |                   num |
+| timing    |     incident duration multiplier     |                   num |
+| repeats   | how many times dots will be flashing |                   num |
 
 ## CrossRowReveal
 
@@ -278,23 +276,23 @@ const CrossRowReveal = new Plugin.CrossRowReveal(
     items: 8,
     color: "#8300ff",
     reverse: false,
-    timing: 1
+    timing: 1,
   },
   {
-    selector: ".container9"
+    selector: ".container9",
   }
 );
 ```
 
 ### CrossRowReveal Attrs
 
-| Name        | Are           | Values  |
-| ------------- |:-------------:| -----:|
-| width     | width of incident  | num |
-| height     | height of incident  | num |
-| crossSize     | height and width of cross  | num |
-| crossThickness     | cross line thickness  | num |
-| items     | how many crosses will be in an incident  | num |
-| color     | color of the crosses  | hex,rgb or color name |
-| reverse     | if crosses will be revealed from left to right or the opposite  | boolean |
-| timing     | incident duration multiplier  | num |
+| Name           |                              Are                               |                Values |
+| -------------- | :------------------------------------------------------------: | --------------------: |
+| width          |                       width of incident                        |                   num |
+| height         |                       height of incident                       |                   num |
+| crossSize      |                   height and width of cross                    |                   num |
+| crossThickness |                      cross line thickness                      |                   num |
+| items          |            how many crosses will be in an incident             |                   num |
+| color          |                      color of the crosses                      | hex,rgb or color name |
+| reverse        | if crosses will be revealed from left to right or the opposite |               boolean |
+| timing         |                  incident duration multiplier                  |                   num |
