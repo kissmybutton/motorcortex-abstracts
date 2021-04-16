@@ -4,6 +4,9 @@ node_modules
 # Coverage
 coverage
 
+# build bundle
+bundle.js
+
 # Output folders
 build
 compiled
