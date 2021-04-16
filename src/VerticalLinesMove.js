@@ -1,14 +1,15 @@
-const MotorCortex = require("@kissmybutton/motorcortex");
-const AnimeDefinition = require("@kissmybutton/motorcortex-anime");
-const Anime = MotorCortex.loadPlugin(AnimeDefinition);
+import { loadPlugin, HTMLClip } from "@kissmybutton/motorcortex";
+import AnimeDefinition from "@kissmybutton/motorcortex-anime";
 
-class VerticalLinesMove extends MotorCortex.HTMLClip {
+const Anime = loadPlugin(AnimeDefinition);
+
+export default class VerticalLinesMove extends HTMLClip {
   get font() {
     return [
       {
         type: `google-font`,
-        src: `https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap`
-      }
+        src: `https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,500;0,800;1,700;1,800;1,900&display=swap`,
+      },
     ];
   }
 
@@ -17,46 +18,42 @@ class VerticalLinesMove extends MotorCortex.HTMLClip {
     this.array = [];
     for (let i = 0; i < 3; i++) {
       this.array.push(0);
-      crossList.push(
-        `<div  style="width:${Math.floor(
-          Math.random() * this.attrs.maxLineWidth
-        )}px;" class="line-wrapper line-wrapper-item-${i}"> <div style="width:${
-          this.attrs.maxLineWidth
-        }px;height:${Math.floor(
-          Math.random() * this.attrs.height
-        )}px;"  class="line line-item-${i}"> </div></div> `
-      );
+      const width = Math.floor(Math.random() * this.attrs.maxLineWidth);
+      const height = Math.floor(Math.random() * this.attrs.height);
+
+      crossList.push(`
+        <div style="width:${width}px;" class="line-wrapper line-wrapper-item-${i}">
+          <div style="width:${this.attrs.maxLineWidth}px;height:${height}px;" class="line line-item-${i}"></div>
+        </div>
+      `);
     }
 
     return `
-    <div class="wrapper">
-      ${crossList.join("")}
-    </div>
-    
-
+      <div class="wrapper">
+        ${crossList.join("")}
+      </div>
     `;
   }
 
   get css() {
     return `
-    .wrapper{
-      width: ${this.attrs.width}px;
-      height:${this.attrs.height}px;
-      display:flex;
-      font-family: 'Poppins', sans-serif;
-    }
-    .line{
-      background: ${this.attrs.color};
-      position: relative;
-    }
+      .wrapper{
+        width: ${this.attrs.width}px;
+        height:${this.attrs.height}px;
+        display:flex;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .line{
+        background: ${this.attrs.color};
+        position: relative;
+      }
 
-    .line-wrapper{
-      position: relative;
-      overflow: hidden;
-    }
- 
-
-  `;
+      .line-wrapper{
+        position: relative;
+        overflow: hidden;
+      }
+    `;
   }
 
   buildTree() {
@@ -65,33 +62,31 @@ class VerticalLinesMove extends MotorCortex.HTMLClip {
         {
           animatedAttrs: {
             height: `${this.attrs.height * 0.6}px`,
-            top: `0px`
+            top: `0px`,
           },
           initialValues: {
             height: `0px`,
-            top: `${this.attrs.height}px`
-          }
+            top: `${this.attrs.height}px`,
+          },
         },
         {
           duration: 500,
-          selector: ".line-wrapper-item-" + i
+          selector: ".line-wrapper-item-" + i,
         }
       );
       this.addIncident(lineTop, 500 * i + 1);
       const lineHeigth = new Anime.Anime(
         {
           animatedAttrs: {
-            height: `0px`
-          }
+            height: `0px`,
+          },
         },
         {
           duration: 400,
-          selector: ".line-item-" + i
+          selector: ".line-item-" + i,
         }
       );
       this.addIncident(lineHeigth, 500 + 500 * i + 1);
     }
   }
 }
-
-module.exports = VerticalLinesMove;

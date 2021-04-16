@@ -1,62 +1,55 @@
 import { HTMLClip, loadPlugin } from "@kissmybutton/motorcortex";
-import Player from "@kissmybutton/motorcortex-player/";
-import AbstractsDefinition from "../";
+import Player from "@kissmybutton/motorcortex-player";
+import AbstractsDefinition from "../dist/motorcortex-abstracts.umd";
+
 const Plugin = loadPlugin(AbstractsDefinition);
 
-const css = `
-  .container {
-    overflow: hidden;
-    width:425px;
-    height:240px;
-  }
-  .wrapper{
-    width:1280px;
-    height:720px;
-    display:flex;
-    font-family: 'Poppins', sans-serif;
-    display: grid;
-    grid-row-gap:50px;
-    grid-column-gap:50px;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-  }
-  .flex{
-    display: flex;
-    justify-content: center;
-    background-color: #bfbfbf;
-    height: 100%;
-    width: 100%;
-  }
-`;
-
-const html = `
-  <div class="flex">
-    <div class="wrapper">
-      <div class="container container1"></div>
-      <div class="container container2"></div>
-      <div class="container container3"></div>
-      <div class="container container4"></div>
-      <div class="container container5"></div>
-      <div class="container container6"></div>
-      <div class="container container7"></div>
-      <div class="container container8"></div>
-      <div class="container container9"></div>
-    </div>
-</div>
-`;
-
-const host = document.getElementById("clip");
-
-const containerParams = {
-  width: "1728px",
-  height: "872px",
-};
-
 const clip = new HTMLClip({
-  css,
-  html,
-  host,
-  containerParams,
+  css: `
+    .container {
+      overflow: hidden;
+      width:425px;
+      height:240px;
+    }
+    .wrapper{
+      width:1280px;
+      height:720px;
+      display:flex;
+      font-family: 'Poppins', sans-serif;
+      display: grid;
+      grid-row-gap:50px;
+      grid-column-gap:50px;
+      grid-template-columns: repeat(3, 1fr);
+      justify-items: center;
+    }
+    .flex{
+      display: flex;
+      justify-content: center;
+      background-color: #bfbfbf;
+      height: 100%;
+      width: 100%;
+    }
+  `,
+  html: `
+    <div class="flex">
+      <div class="wrapper">
+        <div class="container container1"></div>
+        <div class="container container2"></div>
+        <div class="container container3"></div>
+        <div class="container container4"></div>
+        <div class="container container5"></div>
+        <div class="container container6"></div>
+        <div class="container container7"></div>
+        <div class="container container8"></div>
+        <div class="container container9"></div>
+      </div>
+  </div>
+  `,
+  host: document.getElementById("clip"),
+  containerParams: {
+    width: "1728px",
+    height: "872px",
+  },
   id: "root",
   fonts: [
     {
@@ -153,6 +146,7 @@ const CircleBubbleUp = new Plugin.CircleBubbleUp(
     selector: ".container6",
   }
 );
+
 const HorizontalLinesMove = new Plugin.HorizontalLinesMove(
   {
     width: 425,
@@ -164,6 +158,7 @@ const HorizontalLinesMove = new Plugin.HorizontalLinesMove(
     selector: ".container7",
   }
 );
+
 const Dots = new Plugin.Dots(
   {
     width: 425,
@@ -206,6 +201,4 @@ clip.addIncident(HorizontalLinesMove, 0);
 clip.addIncident(Dots, 0);
 clip.addIncident(CrossRowReveal, 0);
 
-window.clip = clip;
-
-new Player({ clip, timeFormat: "ms" });
+new Player({ clip });

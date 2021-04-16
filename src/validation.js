@@ -5,7 +5,7 @@ export const CrossMoveRightValidation = {
   crossThickness: { optional: false, type: "number" },
   travelDistance: { optional: false, type: "number" },
   items: { optional: false, type: "number" },
-  color: { optional: false, type: "color" }
+  color: { optional: false, type: "color" },
 };
 
 export const CrossMoveRightOutlineValidation = {
@@ -14,7 +14,7 @@ export const CrossMoveRightOutlineValidation = {
   crossSize: { optional: false, type: "number" },
   travelDistance: { optional: false, type: "number" },
   steps: { optional: false, type: "number" },
-  color: { optional: false, type: "color" }
+  color: { optional: false, type: "color" },
 };
 
 export const CrossRandomValidation = {
@@ -24,20 +24,20 @@ export const CrossRandomValidation = {
   items: { optional: false, type: "number" },
   color: { optional: false, type: "color" },
   rows: { optional: false, type: "number" },
-  timing: { optional: true, type: "number" }
+  timing: { optional: true, type: "number" },
 };
 
 export const VerticalLinesMoveValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxLineWidth: { optional: false, type: "number" },
-  color: { optional: false, type: "color" }
+  color: { optional: false, type: "color" },
 };
 export const HorizontalLinesMoveValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxLineHeight: { optional: false, type: "number" },
-  color: { optional: false, type: "color" }
+  color: { optional: false, type: "color" },
 };
 export const CircleExplosionValidation = {
   width: { optional: false, type: "number" },
@@ -48,17 +48,17 @@ export const CircleExplosionValidation = {
   items: { optional: false, type: "number" },
   minR: { optional: false, type: "number" },
   maxR: { optional: false, type: "number" },
-  border: { optional: false, type: "boolean" }
+  border: { optional: false, type: "boolean" },
 };
 
-export const CircleBubbleUp = {
+export const CircleBubbleUpValidation = {
   width: { optional: false, type: "number" },
   height: { optional: false, type: "number" },
   maxCirlcleSize: { optional: false, type: "number" },
   travelDistance: { optional: false, type: "number" },
   color: { optional: false, type: "color" },
   items: { optional: false, type: "number" },
-  border: { optional: false, type: "boolean" }
+  border: { optional: false, type: "boolean" },
 };
 
 export const DotsValidation = {
@@ -70,7 +70,7 @@ export const DotsValidation = {
   columnGap: { optional: false, type: "number" },
   rows: { optional: false, type: "number" },
   timing: { optional: false, type: "number" },
-  repeats: { optional: false, type: "number" }
+  repeats: { optional: false, type: "number" },
 };
 
 export const CrossRowRevealValidation = {
@@ -80,5 +80,5 @@ export const CrossRowRevealValidation = {
   items: { optional: false, type: "number" },
   color: { optional: false, type: "color" },
   reverse: { optional: false, type: "boolean" },
-  timing: { optional: false, type: "number" }
+  timing: { optional: false, type: "number" },
 };
